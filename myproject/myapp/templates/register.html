@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'icons/logo-64.png' %}">
     <title>Register</title>
     <style>
         * {
@@ -37,6 +38,15 @@
             margin-bottom: 25px;
             font-size: 24px;
             font-weight: bold;
+        }
+
+        .input-group-row {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .input-group-row .input-group {
+            flex: 1; 
         }
 
         .input-group {
@@ -128,39 +138,50 @@
     <div class="container">
         <form method="POST" class="form">
             {% csrf_token %}
-                <h2 class="form-title">Register</h2>
-                    {% for message in messages %}
-                        <p class="error-message">{{ message }}</p>
-                    {% endfor %}
+            <h2 class="form-title">Register</h2>
+            {% for message in messages %}
+            <p class="error-message">{{ message }}</p>
+            {% endfor %}
+            
+            <div class="input-group-row">
+                <div class="input-group">
+                    <input type="text" name="firstname" id="firstname" required placeholder=" " title="Enter your first name.">
+                    <label for="firstname">First Name</label>
+                </div>
+                <div class="input-group">
+                    <input type="text" name="lastname" id="lastname" required placeholder=" " title="Enter your last name.">
+                    <label for="lastname">Last Name</label>
+                </div>
+            </div>
+        
+            <div class="input-group">
+                <input type="text" name="username" id="username" required placeholder=" " title="Enter a unique username.">
+                <label for="username">Username</label>
+            </div>
+        
+            <div class="input-group">
+                <input type="email" name="email" id="email" required placeholder=" " title="Enter a valid email address. ex. user@gmail.com">
+                <label for="email">Email</label>
+            </div>
+        
+            <div class="input-group">
+                <input type="password" name="password1" id="password1" required placeholder=" " title="Password must be at least 8 characters long.">
+                <label for="password1">Password</label>
+            </div>
+        
+            <div class="input-group">
+                <input type="password" name="password2" id="password2" required placeholder=" " title="Re-enter the password to confirm.">
+                <label for="password2">Confirm Password</label>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="toggle-password">
+                <label for="toggle-password">Show Passwords</label>
+            </div>
 
-                    <div class="input-group">
-                        <input type="text" name="username" id="username" required placeholder=" ">
-                        <label for="username">Username</label>
-                    </div>
-                    
-                    <div class="input-group">
-                        <input type="email" name="email" id="email" required placeholder=" ">
-                        <label for="email">Email</label>
-                    </div>
-                    
-                    <div class="input-group">
-                        <input type="password" name="password1" id="password1" required placeholder=" ">
-                        <label for="password1">Password</label>
-                    </div>
-                    
-                    <div class="input-group">
-                        <input type="password" name="password2" id="password2" required placeholder=" ">
-                        <label for="password2">Confirm Password</label>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="toggle-password">
-                        <label for="toggle-password">Show Passwords</label>
-                    </div>
-
-                    <button type="submit" class="btn">Register</button>
-                    <p class="footer">Already have an account? <a href="{% url 'login' %}">Login</a></p>
-            </form>
+            <button type="submit" class="btn">Register</button>
+            <p class="footer">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        </form>
     </div>
 
     <script>

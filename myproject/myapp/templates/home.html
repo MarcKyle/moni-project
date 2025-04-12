@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="{% static 'icons/logo-64.png' %}">
     <title>Dashboard</title>
     <style>
         * {
@@ -30,11 +31,16 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
+            padding: 20px;
             box-shadow: 0 2px 4px #000000;
         }
 
         .logo {
+            width: 50px;
+            cursor: pointer;
+        }
+        .profile-logo {
+            width: 50px;
             cursor: pointer;
         }
 
@@ -45,9 +51,9 @@
         }
 
         .sidebar {
+            backdrop-filter: blur(15px);
+            background-color:rgb(34, 0, 85);
             width: 170px;
-            /* background-image: linear-gradient(to bottom, #220055, #ffffff00); */
-            background-color: #220055;
             color: white;
             padding: 20px;
             margin: 0 20px 0 0;
@@ -83,47 +89,55 @@
             gap: 20px;
         }
 
+        .activity-container {
+            background-color: rgba(255, 255, 255, 0.8); /* Light background for contrast */
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
         .card {
             background: white;
             padding: 20px;
             border-radius: 8px;
             flex: 1;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
-        } 
+            height: 100%; 
+            overflow-y: auto;
+        }
+
+        .recent-activity-header {
+            backdrop-filter: blur(15px);
+            color: #ffffff;
+            background: rgba(34, 0, 85, 1);
+            border-radius: 8px;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0; 
+            z-index: 1;
+        }
         
-        .balance, .recent-update {
+        .recent-activity-list {
+            list-style: none;
+            margin: 0;
+            padding: 10px 20px;
+            overflow-y: auto;
+        }
+        
+        .balance {
             font-size: 25px;
             font-weight: bold;
-        }
-        
-        .increment-balance, .decrement-balance {
-            height: 40px;
-            width: 50px;
-            border-radius: 8px; 
-            background: #d46f34; 
-            color: white; 
-            border: none; 
-            cursor: pointer;
-        }
-        .increment-amount {
-            width: 50%;
-            padding: 10px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(0, 0, 0, 0.5);
-            border-style: solid;
-        }
-        .increment-amount::placeholder {
-            color: rgb(112, 112, 112)
         }
 
     </style>
 </head>
 <body>
     <header>
-        <img class="logo" src="{% static 'icons/logo-128.png' %}" alt="Logo" style="width: 50px;">
+        <img class="logo" src="{% static 'icons/logo-128.png' %}" alt="Logo">
         <h1>Home</h1>
-        <img src="{% static 'icons/placeholder-user-256.png' %}" alt="Logo" style="width: 50px;">
+        <img class="profile-logo" src="{% static 'icons/placeholder-user-256.png' %}" alt="Logo" title="{{ user.username}}">
     </header>
 
     <div class="dashboard">
@@ -131,8 +145,8 @@
         <h2>Navigation</h2>
         <ul>
             <li>Home</li>
-            <li>Settings</li>
-            <li>Profile</li>
+            <li title="No function">Settings</li>
+            <li title="No function">Profile</li>
             <li><a href="{% url 'logout' %}" style="color: white; text-decoration: none;">Logout</a></li>
         </ul>
         </aside>
@@ -140,46 +154,42 @@
         <main class="main-content">
         <div class="flex-section">
             <div class="card">
-                <p class="balance">₱100.00</p>
+                <h3>Welcome, {{ user.first_name }} {{ user.last_name }}</h3>
+                <p>Email: {{ user.email }}</p>
+                <p>Joined: {{ user.date_joined|date:"F j, Y" }}</p>
             </div>
             <div class="card">
-                <p class="recent-update">+₱9.00</p>
+                <p>Current Balance:</p>
+                <h2 class="balance">${{ balance }}</h2>
             </div>
         </div>
         <div class="flex-section">
             <div class="card">
-                <input class="increment-amount" type="number" value="1"/>
-                <button class="increment-balance">+</button>
-                <button class="decrement-balance">-</button>
+                <div class="recent-activity-header">
+                    <h3>Recent Activity</h3>
+                </div>
+                <ul class="recent-activity-list">
+                    {% for activity in activities %}
+                        <li>
+                            <div class="activity-container">
+                                <p>
+                                    <strong>{{ activity.timestamp|date:"F j, Y, g:i A" }}</strong><br>
+                                    {% if activity.is_added %}
+                                        <span style="color: green;">+${{ activity.amount }}</span>
+                                    {% else %}
+                                        <span style="color: red;">-${{ activity.amount }}</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
-            <div class="card">Reports</div>
         </div>
-        <div class="flex-section">
-            <div class="card">Recent Activity</div>
-        </div>
-        </main>
     </div>
-
     <script>
 
-        document.querySelector('.logo').addEventListener('click', () => {
-            window.location.href = '/';
-        });
-
-        document.querySelector('.increment-balance').addEventListener('click', () => {
-            const balanceEl = document.querySelector('.balance');
-            const balance = parseFloat(balanceEl.textContent.replace('₱', ''));
-            const incrementAmount = parseFloat(document.querySelector('#increment-amount').value);
-            balanceEl.textContent = `₱${balance + incrementAmount}.00`;
-        });
-
-        document.querySelector('.decrement-balance').addEventListener('click', () => {
-            const balanceEl = document.querySelector('.balance');
-            const balance = parseFloat(balanceEl.textContent.replace('₱', ''));
-            const decrementAmount = parseFloat(document.querySelector('#increment-amount').value);
-            balanceEl.textContent = `₱${balance - decrementAmount}.00`;
-        });
-
+        
     </script>
     </body>
 </html>

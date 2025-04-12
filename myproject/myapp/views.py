@@ -5,9 +5,13 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView
+import random
+from datetime import datetime, timedelta
 
 def register(request):
     if request.method == 'POST':
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
         username = request.POST['username']
         email = request.POST['email']
         password1 = request.POST['password1']
@@ -25,8 +29,12 @@ def register(request):
             messages.error(request, "Email already exists.")
             return redirect('register')
 
-        # Create the user and save the email
+        # Create the user and save the firstname and lastname
         user = User.objects.create_user(username=username, password=password1, email=email)
+        user.first_name = firstname
+        user.last_name = lastname
+        user.save()
+
         messages.success(request, "Registration successful! Please log in.")
         return redirect('login')
     return render(request, 'register.html')
@@ -56,4 +64,27 @@ def logout_view(request):
 
 @login_required(login_url='login')
 def home(request):
-    return render(request, 'home.html')  # existing home view, now protected
+    
+    # Simulate some random activities and balance for the user
+    activities = []
+    num_activities = random.randint(3, 10) 
+    balance = 0 
+
+    for _ in range(num_activities):
+        amount = random.randint(1, 1000)
+        is_added = random.choice([True, False])  
+        timestamp = datetime.now() - timedelta(minutes=random.randint(1, 1440))
+
+        # Update balance based on activity
+        if is_added:
+            balance += amount
+        else:
+            balance -= amount
+
+        activities.append({
+            'amount': amount,
+            'is_added': is_added,
+            'timestamp': timestamp,
+        })
+
+    return render(request, 'home.html', {'activities': activities, 'balance': balance})
