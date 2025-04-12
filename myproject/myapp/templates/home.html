@@ -1,106 +1,185 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    body {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: url("{% static 'images/home-background.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+            padding: 10px;
+        }
 
-    header {
-      height: 60px;
-      background-color: #4A00E0;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
+        header {
+            height: 80px;
+            background-color: #220055;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px #000000;
+        }
 
-    .dashboard {
-      display: flex;
-      flex: 1;
-    }
+        .logo {
+            cursor: pointer;
+        }
 
-    .sidebar {
-      width: 220px;
-      background-color: #220055;
-      color: white;
-      padding: 20px;
-    }
+        .dashboard {
+            display: flex;
+            flex: 1;
+            margin: 20px;
+        }
 
-    .sidebar ul {
-      list-style: none;
-      margin-top: 20px;
-    }
+        .sidebar {
+            width: 170px;
+            /* background-image: linear-gradient(to bottom, #220055, #ffffff00); */
+            background-color: #220055;
+            color: white;
+            padding: 20px;
+            margin: 0 20px 0 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px #000000;
+        }
 
-    .sidebar ul li {
-      margin: 15px 0;
-      cursor: pointer;
-    }
+        .sidebar ul {
+            list-style: none;
+            margin-top: 20px;
+        }
 
-    .main-content {
-      flex: 1;
-      background-color: #f5f5f5;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
+        .sidebar ul li {
+            margin: 15px 0;
+            cursor: pointer;
+        }
 
-    .flex-section {
-      display: flex;
-      gap: 20px;
-    }
+        .main-content {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.5); 
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            border-radius: 8px;
+        }
+        .main-content .flex-section:last-child {
+            flex: 1;
+        }
 
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      flex: 1;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-  </style>
+        .flex-section {
+            display: flex;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            flex: 1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+        } 
+        
+        .balance, .recent-update {
+            font-size: 25px;
+            font-weight: bold;
+        }
+        
+        .increment-balance, .decrement-balance {
+            height: 40px;
+            width: 50px;
+            border-radius: 8px; 
+            background: #d46f34; 
+            color: white; 
+            border: none; 
+            cursor: pointer;
+        }
+        .increment-amount {
+            width: 50%;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(0, 0, 0, 0.5);
+            border-style: solid;
+        }
+        .increment-amount::placeholder {
+            color: rgb(112, 112, 112)
+        }
+
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Dashboard</h1>
-    <div>User Profile</div>
-  </header>
+    <header>
+        <img class="logo" src="{% static 'icons/logo-128.png' %}" alt="Logo" style="width: 50px;">
+        <h1>Home</h1>
+        <img src="{% static 'icons/placeholder-user-256.png' %}" alt="Logo" style="width: 50px;">
+    </header>
 
-  <div class="dashboard">
-    <aside class="sidebar">
-      <h2>Navigation</h2>
-      <ul>
-        <li>Home</li>
-        <li>Settings</li>
-        <li>Profile</li>
-        <li><a href="{% url 'logout' %}" style="color: white; text-decoration: none;">Logout</a></li>
-      </ul>
-    </aside>
+    <div class="dashboard">
+        <aside class="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li>Home</li>
+            <li>Settings</li>
+            <li>Profile</li>
+            <li><a href="{% url 'logout' %}" style="color: white; text-decoration: none;">Logout</a></li>
+        </ul>
+        </aside>
 
-    <main class="main-content">
-      <div class="flex-section">
-        <div class="card">Widget 1</div>
-        <div class="card">Widget 2</div>
-      </div>
-      <div class="flex-section">
-        <div class="card">Analytics</div>
-        <div class="card">Reports</div>
-      </div>
-    </main>
-  </div>
-</body>
+        <main class="main-content">
+        <div class="flex-section">
+            <div class="card">
+                <p class="balance">₱100.00</p>
+            </div>
+            <div class="card">
+                <p class="recent-update">+₱9.00</p>
+            </div>
+        </div>
+        <div class="flex-section">
+            <div class="card">
+                <input class="increment-amount" type="number" value="1"/>
+                <button class="increment-balance">+</button>
+                <button class="decrement-balance">-</button>
+            </div>
+            <div class="card">Reports</div>
+        </div>
+        <div class="flex-section">
+            <div class="card">Recent Activity</div>
+        </div>
+        </main>
+    </div>
+
+    <script>
+
+        document.querySelector('.logo').addEventListener('click', () => {
+            window.location.href = '/';
+        });
+
+        document.querySelector('.increment-balance').addEventListener('click', () => {
+            const balanceEl = document.querySelector('.balance');
+            const balance = parseFloat(balanceEl.textContent.replace('₱', ''));
+            const incrementAmount = parseFloat(document.querySelector('#increment-amount').value);
+            balanceEl.textContent = `₱${balance + incrementAmount}.00`;
+        });
+
+        document.querySelector('.decrement-balance').addEventListener('click', () => {
+            const balanceEl = document.querySelector('.balance');
+            const balance = parseFloat(balanceEl.textContent.replace('₱', ''));
+            const decrementAmount = parseFloat(document.querySelector('#increment-amount').value);
+            balanceEl.textContent = `₱${balance - decrementAmount}.00`;
+        });
+
+    </script>
+    </body>
 </html>
