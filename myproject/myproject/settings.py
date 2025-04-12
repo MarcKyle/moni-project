@@ -31,8 +31,19 @@ ALLOWED_HOSTS = []
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-# Application definition
+# Security settings
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_FAILURE_VIEW = 'django.views.csrf.csrf_failure'
 
+# Email settings
+AUTHENTICATION_BACKENDS = [
+    'myapp.backend.EmailBackend',  # Custom email backend
+    'django.contrib.auth.backends.ModelBackend',  # Default backend
+]
+
+
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,7 +58,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',  # CSRF middleware
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

@@ -12,7 +12,7 @@
         }
 
         body {
-            background: url("{% static '/static/images/login-background.jpg' %}") no-repeat center center fixed;
+            background: url("{% static 'images/login-background.jpg' %}") no-repeat center center fixed;
             background-size: cover;
             height: 100vh;
             display: flex;
@@ -54,7 +54,7 @@
         .login-container button {
             width: 100%;
             padding: 12px;
-            background: #7b4dff;
+            background:  #d46f34;
             color: white;
             border: none;
             border-radius: 8px;
@@ -64,24 +64,24 @@
         }
 
         .login-container button:hover {
-            background: #5c34d4;
+            background: #ff854d;
         }
 
         .login-container .options {
             display: flex;
             justify-content: space-between;
             font-size: 12px;
-            margin-top: 10px;
         }
 
         .login-container .options label {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 10px;
+            white-space: nowrap;
         }
 
         .login-container a {
-            color: #a88bff;
+            color: #ffc75f;
             text-decoration: none;
         }
 
@@ -90,7 +90,7 @@
         }
 
         .login-container p.error-message {
-            color: #ff6b6b;
+            color: #d84d4d;
             margin-bottom: 10px;
         }
 
@@ -98,31 +98,102 @@
             margin-top: 15px;
             font-size: 13px;
         }
+
+        .input-container {
+            position: relative;
+            margin: 10px 0;
+        }
+
+        .input-container input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+        }
+
+        .input-container label {
+            position: absolute;
+            left: 12px;
+            top: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            pointer-events: none;
+            transition: all 0.2s ease;
+        }
+
+        .input-container input:focus + label,
+        .input-container input:not(:placeholder-shown) + label {
+            top: 10px;
+            left: 12px;
+            font-size: 12px;
+            color: #ffffff;
+        }
+
+        .input-container input:-webkit-autofill {
+            background: rgba(255, 255, 255, 0.1) !important; 
+            color: #ffffff !important; 
+            -webkit-box-shadow: 0 0 0px 1000px rgba(255, 251, 38, 0.1) inset !important; 
+            transition: background-color 5000s ease-in-out 0s; 
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
+        <img src="{% static 'icons/logo-64.png' %}" alt="Logo" style="width: 100px; margin-bottom: 20px;">
+        {% if messages %}
+            <p class="error-message">{{ messages }}</p>
+        {% endif %}
         <h2>Login</h2>
         {% for message in messages %}
             <p class="error-message">{{ message }}</p>
         {% endfor %}
-        <form method="POST">
+        <form method="POST" id="login-form">
             {% csrf_token %}
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
+            <div class="input-container">
+                <input type="email" name="email" id="email" placeholder=" " required>
+                <label for="email">Email</label>
+            </div>
+            <div class="input-container">
+                <input type="password" name="password" id="password" placeholder=" " required>
+                <label for="password">Password</label>
+            </div>
 
             <div class="options">
                 <label>
-                    <input type="checkbox" name="remember">
-                    Remember me
+                    <input type="checkbox" id="toggle-password"> Show Password
                 </label>
             </div>
 
             <button type="submit">Login</button>
         </form>
         <p class="register-link">
-            Don't have an account? <a href="{% url 'register' %}">Register</a>
+            Don't have an account? <a href="{% url 'register' %}">Register here!</a>
         </p>
     </div>
+    <script>
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordInput = document.querySelector('input[name="password"]');
+        const loginForm = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
+
+        togglePassword.addEventListener('change', function () {
+            if (this.checked) {
+                passwordInput.type = 'text';
+            } else {
+                passwordInput.type = 'password';
+            }
+        });
+
+        loginForm.addEventListener('submit', function (event) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(emailInput.value)) {
+                event.preventDefault();
+                alert('Please enter a valid email address.');
+            }
+        });
+    </script>
 </body>
 </html>

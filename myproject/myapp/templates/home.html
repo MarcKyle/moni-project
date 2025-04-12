@@ -1,9 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Welcome</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    header {
+      height: 60px;
+      background-color: #4A00E0;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .dashboard {
+      display: flex;
+      flex: 1;
+    }
+
+    .sidebar {
+      width: 220px;
+      background-color: #220055;
+      color: white;
+      padding: 20px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .sidebar ul li {
+      margin: 15px 0;
+      cursor: pointer;
+    }
+
+    .main-content {
+      flex: 1;
+      background-color: #f5f5f5;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .flex-section {
+      display: flex;
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      flex: 1;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body>
-    <h1>Hello, Django!</h1>
+  <header>
+    <h1>Dashboard</h1>
+    <div>User Profile</div>
+  </header>
+
+  <div class="dashboard">
+    <aside class="sidebar">
+      <h2>Navigation</h2>
+      <ul>
+        <li>Home</li>
+        <li>Settings</li>
+        <li>Profile</li>
+        <li><a href="{% url 'logout' %}" style="color: white; text-decoration: none;">Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <div class="flex-section">
+        <div class="card">Widget 1</div>
+        <div class="card">Widget 2</div>
+      </div>
+      <div class="flex-section">
+        <div class="card">Analytics</div>
+        <div class="card">Reports</div>
+      </div>
+    </main>
+  </div>
 </body>
 </html>
