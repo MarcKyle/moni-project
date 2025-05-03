@@ -70,6 +70,8 @@ A secure and user-friendly Django web application to help users track their inco
 # Clone the repository and Install Dependencies
 git clone https://github.com/MarcKyle/moni-project.git
 pip install -r requirements.txt
+
+# Change directory from root to myproject
 cd myproject
 
 # Apply migrations
