@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Moni</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@200;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            font-family: 'Lexend Deca', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #fff;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header-bar {
+            width: 100%;
+            min-height: 60px;
+            background: #D9D9D9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2vw;
+            box-sizing: border-box;
+        }
+        .logo-img {
+            width: 48px;
+            height: 48px;
+            background: url('../../static/icons/logo-64.png') no-repeat center center/contain;
+        }
+        .login-link {
+            font-family: 'Lexend Deca', sans-serif;
+            font-weight: 700;
+            font-size: 1.5vw;
+            color: #c07000;
+            text-decoration: none;
+            padding: 0.5em 1em;
+            transition: color 0.2s;
+        }
+        .login-link:hover {
+            color: #bc8000;
+        }
+        .section1 {
+            width: 100vw;
+            min-height: 100vh;
+            background: #565656;
+            box-shadow: inset 0px 4px 129.9px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding-top: 5vh;
+            padding-bottom: 5vh;
+        }
+        .welcome-title {
+            font-size: clamp(2.5rem, 7vw, 6rem);
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 1vh;
+            font-size: 6vw;
+        }
+        .welcome-subtitle {
+            font-size: clamp(1.2rem, 3vw, 2.5rem);
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 2vh;
+            margin-bottom: 5vw;
+        }
+        .welcome-quote {
+            font-size: clamp(1rem, 2.5vw, 2rem);
+            font-weight: 200;
+            color: #fff;
+            text-align: center;
+            max-width: 90vw;
+            margin: 0 auto;
+        }
+        .section2 {
+            width: 100vw;
+            min-height: 100vh;
+            background: #BC8000;
+            box-shadow: inset 0px 4px 129.9px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: stretch;
+            justify-content: center;
+            position: relative;
+            padding: 5vh 0;
+        }
+        .section2-left {
+            background: #D9D9D9;
+            flex: 1 1 0;
+            padding: 2vw 2vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .section2-right {
+            flex: 1 1 0;
+            padding: 2vw 2vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        .feature-box {
+            background: #BC8000;
+            border-radius: 24px;
+            margin: 2vh 0;
+            padding: 2vw 1vw;
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1vh;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .feature-title {
+            font-size: clamp(1.2rem, 2vw, 2rem);
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5vh;
+            text-align: center;
+        }
+        .feature-desc {
+            font-size: clamp(1rem, 1.5vw, 1.5rem);
+            font-weight: 200;
+            color: #fff;
+            text-align: center;
+        }
+        .steps-title {
+            font-size: clamp(1.2rem, 2vw, 2rem);
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2vh;
+        }
+        .steps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2vh;
+        }
+        .step-row {
+            display: flex;
+            align-items: center;
+            gap: 1vw;
+        }
+        .step-ellipse {
+            width: 48px;
+            height: 48px;
+            background: #D9D9D9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #000;
+        }
+        .step-desc {
+            font-size: clamp(1rem, 1.5vw, 1.5rem);
+            font-weight: 200;
+            color: #fff;
+        }
+        .section3 {
+            width: 100vw;
+            min-height: 60vh;
+            background: #C4A665;
+            box-shadow: inset 0px 4px 129.9px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 5vh 0;
+        }
+        .section3-rect {
+            width: 60vw;
+            max-width: 900px;
+            min-height: 200px;
+            background: #D9D9D9;
+            border-radius: 24px;
+            margin-bottom: 3vh;
+            margin-inline: 1vh;
+        }
+        .cta-msg {
+            font-size: clamp(1.2rem, 2vw, 2rem);
+            font-weight: 200;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 2vh;
+            margin-top: 2vh;
+        }
+        .cta-btn {
+            font-family: 'Lexend Deca', sans-serif;
+            font-weight: 700;
+            font-size: clamp(1.2rem, 2vw, 2rem);
+            color: #D9D9D9;
+            background: none;
+            border: none;
+            text-decoration: underline;
+            cursor: pointer;
+            text-align: center;
+            margin-bottom: 2vh;
+            margin-top: 2vh;
+        }
+        .footer-bar {
+            width: 100vw;
+            min-height: 60px;
+            background: #333333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .footer-text {
+            font-family: 'Lexend Deca', sans-serif;
+            font-weight: 200;
+            font-size: clamp(1rem, 1.2vw, 1.5rem);
+            color: #fff;
+            text-align: center;
+        }
+        @media (max-width: 1200px) {
+            .section2 {
+                flex-direction: column;
+            }
+            .section2-left, .section2-right {
+                max-width: 100vw;
+                min-width: 0;
+                width: 100vw;
+                padding: 2vw 4vw;
+            }
+            .section3-rect {
+                width: 90vw;
+            }
+        }
+        @media (max-width: 800px) {
+            .header-bar {
+                flex-direction: column;
+                padding: 1vw;
+            }
+            .logo-img {
+                width: 36px;
+                height: 36px;
+            }
+            .section1, .section2, .section3 {
+                padding: 3vh 0;
+            }
+            .section2-left, .section2-right {
+                padding: 2vw 2vw;
+            }
+            .feature-box {
+                max-width: 90vw;
+            }
+            .section3-rect {
+                width: 98vw;
+            }
+        }
+        @media (max-width: 600px) {
+            .welcome-title {
+                font-size: 2rem;
+            }
+            .welcome-subtitle, .cta-msg {
+                font-size: 1.1rem;
+            }
+            .feature-title, .steps-title {
+                font-size: 1.1rem;
+            }
+            .footer-bar {
+                min-height: 40px;
+            }
+        }
+        .welcome-title span {
+            color: #BC8000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Bar -->
+    <div class="header-bar">
+        <div class="logo-img"></div>
+        <a href="{% url 'login' %}" class="login-link">Login</a>
+    </div>
+    <!-- Section 1: Welcome -->
+    <section class="section1">
+        <div class="welcome-title">Welcome to <span>Moni!</span></div>
+        <div class="welcome-subtitle">Your Personal Finance Companion</div>
+        <div class="welcome-quote">"Track your income, monitor expenses, set budgets, and gain insights into your financial habits—all in one place."</div>
+    </section>
+    <!-- Section 2: Features & Steps -->
+    <section class="section2">
+        <div class="section2-left">
+            <div class="feature-box">
+                <div class="feature-icon" style="background-image: url('../../static/icons/clock.png');"></div>
+                <div class="feature-title">Save your time</div>
+                <div class="feature-desc">Helps manage time by organizing for you</div>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon" style="background-image: url('../../static/icons/money-bag.png');"></div>
+                <div class="feature-title">Find out your habits</div>
+                <div class="feature-desc">Set and monitor spending limits</div>
+            </div>
+        </div>
+        <div class="section2-right">
+            <div class="steps-title">Let's get you started</div>
+            <div class="steps-list">
+                <div class="step-row"><div class="step-ellipse">1</div><div class="step-desc">Create Your Account</div></div>
+                <div class="step-row"><div class="step-ellipse">2</div><div class="step-desc">Set Up Your Profile</div></div>
+                <div class="step-row"><div class="step-ellipse">3</div><div class="step-desc">Start Tracking</div></div>
+            </div>
+        </div>
+    </section>
+    <!-- Section 3: CTA -->
+    <section class="section3">
+        <div class="section3-rect"></div>
+        <div class="cta-msg">You're all set - Start saving and spend responsively!</div>
+        <a href="{% url 'register' %}" class="cta-btn">Get Started!</a>
+    </section>
+    <!-- Footer -->
+    <footer class="footer-bar">
+        <div class="footer-text">© Moni - Marc Kyle Jimena - 2025</div>
+    </footer>
+</body>
+</html> 

@@ -7,6 +7,11 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView
 import random
 from datetime import datetime, timedelta
+from .forms import SimpleTransactionForm, TransactionModelForm
+from .models import Transaction
+
+def onboarding(request):
+    return render(request, 'onboarding.html')
 
 def register(request):
     if request.method == 'POST':
@@ -64,27 +69,31 @@ def logout_view(request):
 
 @login_required(login_url='login')
 def home(request):
-    
-    # Simulate some random activities and balance for the user
-    activities = []
-    num_activities = random.randint(3, 10) 
-    balance = 0 
-
-    for _ in range(num_activities):
-        amount = random.randint(1, 1000)
-        is_added = random.choice([True, False])  
-        timestamp = datetime.now() - timedelta(minutes=random.randint(1, 1440))
-
-        # Update balance based on activity
-        if is_added:
-            balance += amount
+    # Get all transactions for the user
+    transactions = Transaction.objects.filter(user=request.user).order_by('-timestamp')
+    # Calculate balance
+    balance = 0
+    for t in transactions:
+        if t.is_added:
+            balance += t.amount
         else:
-            balance -= amount
+            balance -= t.amount
+    # Use the ModelForm for the modal
+    form = TransactionModelForm(user=request.user)
+    return render(request, 'home.html', {
+        'activities': transactions,
+        'balance': balance,
+        'form': form,
+    })
 
-        activities.append({
-            'amount': amount,
-            'is_added': is_added,
-            'timestamp': timestamp,
-        })
-
-    return render(request, 'home.html', {'activities': activities, 'balance': balance})
+def add_transaction(request):
+    if request.method == 'POST':
+        form = TransactionModelForm(request.POST, user=request.user)
+        if form.is_valid():
+            transaction = form.save(commit=False)
+            transaction.user = request.user
+            transaction.save()
+            return redirect('home')
+    else:
+        form = TransactionModelForm(user=request.user)
+    return render(request, 'add_transaction.html', {'form': form})

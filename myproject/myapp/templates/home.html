@@ -3,193 +3,443 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=1920, initial-scale=1.0" />
     <link rel="icon" href="{% static 'icons/logo-64.png' %}">
     <title>Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        * {
+        html, body {
             margin: 0;
             padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Lexend Deca', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #fff;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
         }
-
         body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            position: relative;
+        }
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: #BC8000;
+            box-shadow: inset 0px 4px 129.9px rgba(0, 0, 0, 0.25);
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            background: url("{% static 'images/home-background.jpg' %}") no-repeat center center fixed;
-            background-size: cover;
-            padding: 10px;
+            align-items: center;
+            z-index: 2;
         }
-
-        header {
-            height: 80px;
-            background-color: #220055;
-            border-radius: 8px;
-            color: white;
+        .logo-container {
+            width: 100px;
+            height: 110px;
+            margin-top: 74px;
+            margin-bottom: 60px;
+            background: #D9D9D9;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 20px;
-            box-shadow: 0 2px 4px #000000;
+            justify-content: center;
+            border-radius: 16px;
         }
-
-        .logo {
-            width: 50px;
-            cursor: pointer;
+        .logo-img {
+            width: 64px;
+            height: 64px;
         }
-        .profile-logo {
-            width: 50px;
-            cursor: pointer;
-        }
-
-        .dashboard {
-            display: flex;
-            flex: 1;
-            margin: 20px;
-        }
-
-        .sidebar {
-            backdrop-filter: blur(15px);
-            background-color:rgb(34, 0, 85);
-            width: 170px;
-            color: white;
-            padding: 20px;
-            margin: 0 20px 0 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px #000000;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            margin-top: 20px;
-        }
-
-        .sidebar ul li {
-            margin: 15px 0;
-            cursor: pointer;
-        }
-
-        .main-content {
-            flex: 1;
-            background-color: rgba(255, 255, 255, 0.5); 
-            padding: 20px;
+        .nav {
+            width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            border-radius: 8px;
+            flex: 1 1 auto;
         }
-        .main-content .flex-section:last-child {
-            flex: 1;
-        }
-
-        .flex-section {
+        .logout-link-container {
+            margin-top: auto;
+            width: 100%;
             display: flex;
-            gap: 20px;
+            justify-content: flex-start;
         }
-
-        .activity-container {
-            background-color: rgba(255, 255, 255, 0.8); /* Light background for contrast */
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        .logout-link {
+            color: #fff;
+            font-size: 24px;
+            font-weight: 400;
+            text-decoration: none;
+            margin: 0 0 30px 51px;
+            line-height: 32px;
+            transition: color 0.2s;
         }
-
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            flex: 1;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
-            height: 100%; 
+        .logout-link:hover {
+            color: #FFD580;
+        }
+        .nav-link {
+            display: block;
+            color: #fff;
+            font-size: 24px;
+            font-weight: 400;
+            text-decoration: none;
+            margin: 0 0 30px 51px;
+            line-height: 32px;
+            transition: color 0.2s;
+        }
+        .nav-link:last-child {
+            margin-top: 450px;
+        }
+        .nav-link:hover {
+            color: #FFD580;
+        }
+        .main-area {
+            border-color: #000;
+            border-width: 1vw;
+            position: absolute;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background: #fff;
+            overflow-x: hidden;
             overflow-y: auto;
+            box-sizing: border-box;
+            padding-left: 250px;
+            padding-bottom: 32px;
+            margin: 10px;
         }
-
+        .display-container-1 {
+            width: 100%;
+            height: 250px;
+            display: flex;
+            flex-direction: row;
+            margin-top: 0;
+            gap: 1vw;
+            box-sizing: border-box;
+            padding: 24px 2vw 0 2vw;
+        }
+        .balance-container, .container-right {
+            background: #D9D9D9;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            border-radius: 16px;
+            box-sizing: border-box;
+            padding: 32px 32px;
+            min-width: 0;
+        }
+        .balance-container {
+            flex: 1 1 300px;
+            align-items: center;
+            margin-right: 2vw;
+        }
+        .container-right {
+            flex: 2 1 500px;
+            min-width: 0;
+        }
+        .balance-label {
+            font-size: 1.3rem;
+            color: #000;
+            margin-bottom: 1rem;
+        }
+        .balance-value {
+            font-size: 48px;
+            font-weight: 700;
+            color: #000;
+            line-height: 60px;
+        }
+        .user-info {
+            font-size: 1.1rem;
+            color: #000;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+        .user-info span {
+            font-weight: 700;
+        }
+        .content-row {
+            width: 1461px;
+            height: 122px;
+            background: #D9D9D9;
+            margin-left: 79px;
+            margin-top: 50px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            font-size: 1rem;
+            color: #333;
+        }
+        .content-row:last-child {
+            margin-top: 30px;
+        }
         .recent-activity-header {
-            backdrop-filter: blur(15px);
-            color: #ffffff;
-            background: rgba(34, 0, 85, 1);
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-weight: 700;
+            color: #333;
+            margin-left: 2vw;
+            margin-top: 40px;
+            margin-bottom: 10px;
+        }
+        .activity-card {
+            width: 95%;
+            min-height: 80px;
+            background: #D9D9D9;
+            margin-left: 2vw;
+            margin-right: 2vw;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            font-size: 1rem;
+            color: #333;
+            box-sizing: border-box;
+        }
+        .activity-amount {
+            min-width: 100px;
+            text-align: right;
+            font-weight: 700;
+        }
+        @media (max-width: 1200px) {
+            .main-area {
+                left: 0;
+                width: 100vw;
+                padding-left: 0;
+            }
+            .sidebar {
+                position: relative;
+                width: 100vw;
+                height: auto;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 10px 0;
+            }
+            .display-container-1 {
+                flex-direction: column;
+                height: auto;
+                max-width: 100vw;
+                padding: 24px 2vw 0 2vw;
+            }
+            .balance-container, .container-right {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 2vw;
+                padding: 24px 16px;
+            }
+            .activity-card {
+                max-width: 100vw;
+                margin-left: 0;
+                padding: 0 16px;
+            }
+            .recent-activity-header {
+                margin-left: 0;
+            }
+        }
+        @media (max-width: 700px) {
+            .sidebar {
+                flex-direction: row;
+                width: 100vw;
+                height: 60px;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 8px;
+            }
+            .logo-container {
+                margin: 0;
+                width: 60px;
+                height: 60px;
+            }
+            .main-area {
+                left: 0;
+                width: 100vw;
+                padding: 0;
+            }
+            .display-container-1 {
+                flex-direction: column;
+                padding: 12px 4vw 0 4vw;
+                gap: 12px;
+            }
+            .balance-container, .container-right {
+                padding: 12px 8px;
+            }
+            .activity-card {
+                padding: 0 8px;
+                font-size: 0.95rem;
+            }
+        }
+        .modal-content {
+            background: #fff;
+            padding: 2.5em 2em 2em 2em;
+            border-radius: 18px;
+            min-width: 320px;
+            max-width: 95vw;
+            box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            font-family: 'Lexend Deca', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .transaction-form h2 {
+            margin-bottom: 1.5em;
+            color: #BC8000;
+            font-size: 1.5rem;
+            text-align: center;
+            font-weight: 700;
+        }
+        .form-group {
+            margin-bottom: 1.2em;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            margin-bottom: 0.4em;
+            color: #333;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.7em 1em;
+            border: 1px solid #ccc;
             border-radius: 8px;
-            padding: 10px 20px;
-            border-bottom: 1px solid #ddd;
-            position: sticky;
-            top: 0; 
-            z-index: 1;
+            font-size: 1rem;
+            background: #f7f7f7;
+            transition: border 0.2s;
         }
-        
-        .recent-activity-list {
-            list-style: none;
-            margin: 0;
-            padding: 10px 20px;
-            overflow-y: auto;
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border: 1.5px solid #BC8000;
+            outline: none;
+            background: #fff;
         }
-        
-        .balance {
-            font-size: 25px;
-            font-weight: bold;
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 1em;
+            margin-top: 1.5em;
         }
-
+        .btn-primary {
+            background: #BC8000;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.7em 2em;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover {
+            background: #a06a00;
+        }
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            padding: 0.7em 2em;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        .add-transaction-btn {
+            background: #BC8000;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.7em 2em;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 24px;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .add-transaction-btn:hover {
+            background: #a06a00;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
     </style>
 </head>
 <body>
-    <header>
-        <img class="logo" src="{% static 'icons/logo-128.png' %}" alt="Logo">
-        <h1>Home</h1>
-        <img class="profile-logo" src="{% static 'icons/placeholder-user-256.png' %}" alt="Logo" title="{{ user.username}}">
-    </header>
-
-    <div class="dashboard">
-        <aside class="sidebar">
-        <h2>Navigation</h2>
-        <ul>
-            <li>Home</li>
-            <li title="No function">Settings</li>
-            <li title="No function">Profile</li>
-            <li><a href="{% url 'logout' %}" style="color: white; text-decoration: none;">Logout</a></li>
-        </ul>
-        </aside>
-
-        <main class="main-content">
-        <div class="flex-section">
-            <div class="card">
-                <h3>Welcome, {{ user.first_name }} {{ user.last_name }}</h3>
-                <p>Email: {{ user.email }}</p>
-                <p>Joined: {{ user.date_joined|date:"F j, Y" }}</p>
+    <aside class="sidebar">
+        <div class="logo-container">
+            <img class="logo-img" src="{% static 'icons/logo-64.png' %}" alt="Logo">
+        </div>
+        <nav class="nav">
+            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link" href="#">Label</a>
+            <a class="nav-link" href="#">Settings</a>
+            <a class="nav-link" href="#">Profile</a>
+            <div class="logout-link-container">
+                <a class="logout-link" href="{% url 'logout' %}">Logout</a>
             </div>
-            <div class="card">
-                <p>Current Balance:</p>
-                <h2 class="balance">${{ balance }}</h2>
+        </nav>
+    </aside>
+    <main class="main-area">
+        <div class="display-container-1">
+            <div class="balance-container">
+                <div class="balance-label">Balance</div>
+                <div class="balance-value">${{ balance }}</div>
+                <button id="openModalBtn" class="add-transaction-btn">Make Transaction</button>
+            </div>
+            <div class="container-right">
+                <div class="user-info">Welcome, <span>{{ user.first_name }} {{ user.last_name }}</span></div>
+                <div class="user-info">Email: <span>{{ user.email }}</span></div>
+                <div class="user-info">Joined: <span>{{ user.date_joined|date:"F j, Y" }}</span></div>
             </div>
         </div>
-        <div class="flex-section">
-            <div class="card">
-                <div class="recent-activity-header">
-                    <h3>Recent Activity</h3>
-                </div>
-                <ul class="recent-activity-list">
-                    {% for activity in activities %}
-                        <li>
-                            <div class="activity-container">
-                                <p>
-                                    <strong>{{ activity.timestamp|date:"F j, Y, g:i A" }}</strong><br>
-                                    {% if activity.is_added %}
-                                        <span style="color: green;">+${{ activity.amount }}</span>
-                                    {% else %}
-                                        <span style="color: red;">-${{ activity.amount }}</span>
-                                    {% endif %}
-                                </p>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
+        <div class="recent-activity-header">Recent Activity:</div>
+        {% for activity in activities %}
+            <div class="activity-card">
+                <span style="font-weight:700;">{{ activity.timestamp|date:"F j, Y, g:i A" }}</span>
+                {% if activity.is_added %}
+                    <span class="activity-amount" style="color: green;">+${{ activity.amount }}</span>
+                {% else %}
+                    <span class="activity-amount" style="color: red;">-${{ activity.amount }}</span>
+                {% endif %}
             </div>
+        {% endfor %}
+    </main>
+    <div id="transactionModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:1000;">
+        <div class="modal-content">
+            <form method="post" action="{% url 'add_transaction' %}" class="transaction-form">
+                {% csrf_token %}
+                <h2>Add / Subtract Balance</h2>
+                {% if form.non_field_errors %}
+                    <div class="form-error" style="color: red; margin-bottom: 1em;">{{ form.non_field_errors }}</div>
+                {% endif %}
+                <div class="form-group">
+                    {{ form.amount.label_tag }}
+                    {{ form.amount }}
+                </div>
+                <div class="form-group">
+                    {{ form.is_added.label_tag }}
+                    {{ form.is_added }}
+                </div>
+                <div class="form-group">
+                    {{ form.description.label_tag }}
+                    {{ form.description }}
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Save</button>
+                    <button type="button" class="btn-secondary" onclick="document.getElementById('transactionModal').style.display='none'">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
     <script>
-
-        
+    document.getElementById('openModalBtn').onclick = function() {
+        document.getElementById('transactionModal').style.display = 'flex';
+    };
     </script>
-    </body>
+</body>
 </html>
